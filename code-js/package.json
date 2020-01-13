@@ -1,0 +1,19 @@
+{
+  "name": "pix-test-algo",
+  "version": "0.1.0",
+  "description": "Permet de tester l'algo pix",
+  "author": "Pix",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1024pix/pix-algo-research"
+  },
+  "scripts": {
+    "test-user": "node test-algo.js MODE=USER COMPETENCE=1c4502f779c2af11f5111b2db77756c245c3f3d431b0a1a00e2ec9e217309a87",
+    "test-ok": "node test-algo.js MODE=FULLOK COMPETENCE=1c4502f779c2af11f5111b2db77756c245c3f3d431b0a1a00e2ec9e217309a87",
+    "test-ko": "node test-algo.js MODE=FULLKO COMPETENCE=1c4502f779c2af11f5111b2db77756c245c3f3d431b0a1a00e2ec9e217309a87"
+  },
+  "devDependencies": {
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0"
+  }
+}
