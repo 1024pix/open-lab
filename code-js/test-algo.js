@@ -84,7 +84,7 @@ async function _launchSimulation(mode, competenceId) {
   let lastAnswer = null;
   let usersInformations;
   if(mode === 'USER') {
-    users = require('../data-files/usersData.json');
+    users = require('./usersData.json');
     const userFind = users[Math.floor(Math.random() * users.length)];
     usersInformations = userFind.knowledgeElements;
   }
