@@ -7,6 +7,7 @@ import os
 from collections import Counter
 import pandas as pd
 import numpy as np
+import logging
 
 
 def import_data():
@@ -18,7 +19,7 @@ def import_data():
         key = os.path.basename(filename).replace('.json', '')
         with open(filename) as f:
             data[key] = json.load(f)
-            print(key, data[key][0].keys())
+            logging.info('Loaded %s with %s', key, list(data[key][0].keys()))
     return data
 
 
@@ -32,9 +33,6 @@ def make_df(data):
         for entry in line['knowledgeElements']:
             usersData.append({'userId': userId, **entry})
     df = pd.DataFrame.from_dict(usersData)
-    print(df.head())
-    print(df.shape)
-    print(df['status'].unique())
     df['outcome'] = df['status'].map({'validated': 1, 'invalidated': 0})
     return df
 
@@ -47,12 +45,8 @@ def make_df_skills(data):
     skills['tube'] = skills['name'].map(lambda x: x[1:-1])
     skills['level'] = skills['name'].map(lambda x: x[-1:]).astype(np.int32)
     skills = skills.sort_values(['tube', 'level'])
-    print(skills[['name', 'tube', 'level']].head())
-    print(len(skills))
-    print(skills['level'].unique())
     max_level = dict(skills.groupby('tube')['level'].max())
     skills['maxLevel'] = skills['tube'].map(max_level)
-    print(skills[['tube', 'level']].head(20))
     tube_length = dict(skills.groupby('tube')['level'].count())
     # Count if validated, if invalidated
     nb_val = Counter()
@@ -64,5 +58,4 @@ def make_df_skills(data):
         nb_val[name] = nb_seen[tube]
     skills['nb_inval'] = skills['name'].map(nb_inval)
     skills['nb_val'] = skills['name'].map(nb_val)
-    print(skills[['tube', 'level', 'nb_val', 'nb_inval']].head(20))
     return skills
